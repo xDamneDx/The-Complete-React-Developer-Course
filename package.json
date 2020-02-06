@@ -1,0 +1,19 @@
+{
+  "name": "the-complete-react-developer-couse",
+  "version": "1.0.0",
+  "description": "The Complete React Developer Course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xDamneDx/The-Complete-React-Developer-Course.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xDamneDx/The-Complete-React-Developer-Course/issues"
+  },
+  "homepage": "https://github.com/xDamneDx/The-Complete-React-Developer-Course#readme"
+}
