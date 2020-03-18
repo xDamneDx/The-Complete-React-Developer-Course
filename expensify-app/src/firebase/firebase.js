@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
-import expenses from '../reducers/expenses';
+
+// import expenses from '../reducers/expenses';
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -15,8 +16,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-export { firebase, database as default };
+export { firebase, googleAuthProvider, database as default };
 
 // database.ref('expenses').on('child_changed', (snapshot) => {
 //     console.log(snapshot.key, snapshot.val());
