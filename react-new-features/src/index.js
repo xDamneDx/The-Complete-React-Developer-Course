@@ -1,40 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
+const notesReducer = (state, action) => {
+  switch (action.type) {
+    case 'POPULATE_NOTES':
+      return action.notes;
+    case 'ADD_NOTE':
+      return [
+        ...state, 
+        {
+          title: action.title,
+          body: action.body
+        }];
+    case 'REMOVE_NOTE':
+      return state.filter((note) => note.title !== action.title);
+    default:
+      return state;
+  }
+}
+
 const NoteApp = () => {
-  const notesData = JSON.parse(localStorage.getItem('notes'));;
-  const [notes, setNotes] = useState(notesData || []);
+  const [notes, dispatch] = useReducer(notesReducer, []);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
   const addNote = (e) => {
     e.preventDefault();
-    setNotes([
-      ...notes,
-      { title, body }
-    ]);
+    dispatch({
+      type: 'ADD_NOTE',
+      title,
+      body
+    })
     setTitle('');
     setBody('');
   };
 
   const removeNote = (title) => {
-    setNotes(notes.filter((note) => note.title !== title));
+    dispatch({
+      type: 'REMOVE_NOTE',
+      title
+    })
   };
 
   useEffect(() => {
+    const notes = JSON.parse(localStorage.getItem('notes'));
+    if (notes) {
+      dispatch({ type: 'POPULATE_NOTES', notes })
+    }
+  }, [])
+
+  useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(notes));
-  });
+  }, [notes]);
 
   return (
     <div>
       <h1>Notes</h1>
       {notes.map((note) => (
-        <div key={note.title}>
-          <h3>{note.title}</h3>
-          <p>{note.body}</p>
-          <button onClick={() => removeNote(note.title)}>Remove</button>
-        </div>
+        <Note key={note.title} note={note} removeNote={removeNote} />
       ))}
       <p>Add note</p>
       <form onSubmit={addNote}>
@@ -46,13 +70,35 @@ const NoteApp = () => {
   )
 }
 
+const Note = ({ note, removeNote }) => {
+  useEffect(() => {
+    console.log('Setting up effect');
+
+    return () => {
+      console.log('Cleaning up effect');
+    }
+  });
+
+  return (
+    <div key={note.title}>
+      <h3>{note.title}</h3>
+      <p>{note.body}</p>
+      <button onClick={() => removeNote(note.title)}>Remove</button>
+    </div>
+  )
+}
+
 // const App = (props) => {
 //   const [count, setCount] = useState(props.count);
 //   const [text, setText] = useState('');
 
 //   useEffect(() => {
+//     console.log('This should only run once!S')
+//   }, []);
+
+//   useEffect(() => {
 //     document.title = count;
-//   });
+//   }, [count]);
 
 //   return (
 //     <div>
