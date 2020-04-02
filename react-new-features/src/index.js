@@ -4,6 +4,7 @@ import * as serviceWorker from './serviceWorker';
 // import notesReducer from './reducers/notes';
 import NoteApp from './components/NoteApp';
 
+
 // const App = (props) => {
 //   const [count, setCount] = useState(props.count);
 //   const [text, setText] = useState('');
